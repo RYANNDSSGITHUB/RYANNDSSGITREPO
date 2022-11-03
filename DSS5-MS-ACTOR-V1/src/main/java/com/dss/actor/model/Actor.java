@@ -1,22 +1,22 @@
-package com.dss.movie.model;
+package com.dss.actor.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity(name="ACTOR")
-@Setter
 @Getter
+@Setter
 public class Actor {
 
     @Id @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private int id;
+    private String id;
     private String firstName;
     private String lastName;
     private String gender;

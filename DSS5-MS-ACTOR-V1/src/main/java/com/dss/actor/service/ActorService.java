@@ -1,11 +1,13 @@
 package com.dss.actor.service;
 
-import com.dss.movie.model.Actor;
+import com.dss.actor.model.Actor;
 
 import java.util.List;
 
 public interface ActorService {
-    public void deleteById(String id);
-    public Actor save(Actor movie);
+    public Actor findById(String id);
     public List<Actor> findAll();
+    public String save(Actor actor);
+    public boolean update(Actor actor);
+    public boolean deleteById(String id);
 }

@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity(name="ACTOR")
 @Getter
@@ -21,4 +21,10 @@ public class Actor {
     private String lastName;
     private String gender;
     private String age;
+
+    @ManyToMany
+    @JoinTable(name="MOVIE_ACTOR",
+            joinColumns = @JoinColumn(name="actor_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="movie_id",referencedColumnName = "id"))
+    private Set<Movie> movieList;
 }

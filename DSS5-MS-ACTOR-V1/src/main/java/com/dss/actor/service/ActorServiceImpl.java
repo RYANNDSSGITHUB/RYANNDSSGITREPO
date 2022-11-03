@@ -1,17 +1,39 @@
 package com.dss.actor.service;
 
-import com.dss.actor.repository.ActorDao;
+import com.dss.actor.exception.ActorNotFoundException;
 import com.dss.actor.model.Actor;
+import com.dss.actor.model.Movie;
+import com.dss.actor.proxy.MovieProxy;
+import com.dss.actor.repository.ActorDao;
+import com.dss.movie.exception.AbstractRuntimeException;
+import com.dss.movie.exception.MovieNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ActorServiceImpl implements ActorService {
 
     @Autowired ActorDao actorDao;
+    @Autowired MovieProxy movieProxy;
+
+    private void validateMovieList(Actor actor) throws AbstractRuntimeException {
+        if(actor.getMovieList().size() > 0){
+            Map<String, Movie> actorMap = movieProxy.findAll().stream()
+                    .collect(Collectors.toMap(Movie::getId, movie -> movie));
+
+            for(Movie movie: actor.getMovieList()){
+                if(actorMap.put(movie.getId(), movie) == null){
+                    throw new MovieNotFoundException("Movie ID does not exist");
+                }
+            }
+        }
+    }
 
     @Override
     public Actor findById(String id) {
@@ -34,17 +56,25 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public boolean update(Actor actor) {
+    public boolean update(String id, Actor newModel) {
         Boolean isSuccess = true;
-        try {
-            if(actor.getId()==null){
-                throw new Exception();
-            } else {
-                actorDao.save(actor);
+
+        Optional<Actor> temp = actorDao.findById(id);
+        if(temp.isPresent()){
+            Actor oldModel = temp.get();
+            oldModel.setFirstName(newModel.getFirstName()!=null ? newModel.getFirstName() : oldModel.getFirstName());
+            oldModel.setLastName(newModel.getLastName()!=null ? newModel.getLastName() : oldModel.getLastName());
+            oldModel.setGender(newModel.getGender()!=null ? newModel.getGender() : oldModel.getGender());
+            oldModel.setAge(newModel.getAge()!=null ? newModel.getAge() : oldModel.getAge());
+
+            if(newModel.getMovieList()!=null){
+                validateMovieList(newModel);
+                oldModel.setMovieList(newModel.getMovieList());
             }
-        } catch(Exception e){
+            actorDao.save(oldModel);
+        } else {
             isSuccess = false;
-            e.printStackTrace();
+            throw new ActorNotFoundException("Actor ID does not exist");
         }
         return isSuccess;
     }

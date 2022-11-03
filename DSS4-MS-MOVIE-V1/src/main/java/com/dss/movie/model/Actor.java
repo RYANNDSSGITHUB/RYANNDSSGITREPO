@@ -1,6 +1,7 @@
 package com.dss.movie.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,8 +13,8 @@ import javax.persistence.ManyToMany;
 import java.util.List;
 
 @Entity(name="ACTOR")
-@Setter
 @Getter
+@Setter
 public class Actor {
 
     @Id @GeneratedValue(generator="system-uuid")
@@ -24,6 +25,7 @@ public class Actor {
     private String gender;
     private String age;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "actorList")
     private List<Movie> moviesList;
 }

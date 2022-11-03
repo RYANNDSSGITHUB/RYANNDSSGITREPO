@@ -2,6 +2,7 @@ package com.dss.actor.controller;
 
 import com.dss.actor.model.Actor;
 import com.dss.actor.service.ActorService;
+import com.dss.movie.exception.AbstractRuntimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,14 @@ public class ActorController {
 
     @PutMapping("/actor/{id}")
     public boolean update(@PathVariable(name="id") String id,
-                         @RequestBody Actor model){
-        return actorService.update(model);
+                         @RequestBody Actor model)
+            throws AbstractRuntimeException{
+        return actorService.update(id, model);
     }
 
-    @DeleteMapping("/actor")
-    public boolean deleteById(@RequestBody String id){
+    @DeleteMapping("/actor/{id}")
+    public boolean deleteById(@PathVariable(name="id") String id)
+            throws AbstractRuntimeException {
         return actorService.deleteById(id);
     }
 }

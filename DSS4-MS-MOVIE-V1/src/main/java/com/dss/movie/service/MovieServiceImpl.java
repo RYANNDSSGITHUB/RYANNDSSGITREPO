@@ -6,7 +6,7 @@ import com.dss.movie.exception.InvalidMovieException;
 import com.dss.movie.exception.MovieNotFoundException;
 import com.dss.movie.model.Actor;
 import com.dss.movie.model.Movie;
-import com.dss.movie.model.MovieDto;
+import com.dss.movie.model.MovieRequestModel;
 import com.dss.movie.proxy.ActorProxy;
 import com.dss.movie.repository.MovieDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public boolean update(String id, MovieDto newModel) {
+    public boolean update(String id, MovieRequestModel newModel) {
         Boolean isSuccess = true;
 
         Optional<Movie> temp = movieDao.findById(id);

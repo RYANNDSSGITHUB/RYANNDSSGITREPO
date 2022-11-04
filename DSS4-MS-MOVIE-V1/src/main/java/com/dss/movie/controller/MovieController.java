@@ -1,9 +1,8 @@
 package com.dss.movie.controller;
 
 import com.dss.movie.exception.AbstractRuntimeException;
-import com.dss.movie.exception.MovieNotFoundException;
 import com.dss.movie.model.Movie;
-import com.dss.movie.model.MovieDto;
+import com.dss.movie.model.MovieRequestModel;
 import com.dss.movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class MovieController {
 
     @PutMapping("/movie/{id}")
     public boolean update(@PathVariable(name="id") String id,
-                          @RequestBody MovieDto model)
+                          @RequestBody MovieRequestModel model)
             throws AbstractRuntimeException {
         return movieService.update(id, model);
     }

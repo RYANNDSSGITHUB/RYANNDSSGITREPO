@@ -36,9 +36,6 @@ public class ReviewServiceTest {
 
         Mockito.when(movieDao.findById(movie.getId())).thenReturn(Optional.of(new Movie()));
         Assertions.assertTrue(reviewService.save(reviewDto));
-
-        Mockito.when(reviewService.findByMovieId(null)).thenReturn(new Review());
-        Assertions.assertFalse(reviewService.save(null));
     }
 
     @Test

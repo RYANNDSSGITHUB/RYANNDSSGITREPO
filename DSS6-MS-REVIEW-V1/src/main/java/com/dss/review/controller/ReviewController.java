@@ -13,12 +13,14 @@ public class ReviewController {
     @Autowired ReviewService reviewService;
 
     @GetMapping("/review/{movieId}")
-    public Review findByMovieId(@PathVariable(name="movieId") String movieId){
+    public Review findByMovieId(@PathVariable(name="movieId") String movieId)
+            throws AbstractRuntimeException {
         return reviewService.findByMovieId(movieId);
     }
 
     @PostMapping("/review")
-    public String add(@RequestBody Review model){
+    public boolean add(@RequestBody Review model)
+            throws AbstractRuntimeException {
         return reviewService.save(model);
     }
 }

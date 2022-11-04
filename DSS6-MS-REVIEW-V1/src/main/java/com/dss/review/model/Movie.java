@@ -1,7 +1,6 @@
 package com.dss.review.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,15 +34,4 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "id"))
     private Set<Actor> actorList;
-
-    public Movie(String id, String description, String productionCost, String yearReleased,
-                 String imageDirectory, List<Review> reviewList, Set<Actor> actorList){
-        this.id = id;
-        this.description = description;
-        this.productionCost = productionCost;
-        this.yearReleased = yearReleased;
-        this.imageDirectory = imageDirectory;
-        this.reviewList = reviewList;
-        this.actorList = actorList;
-    }
 }

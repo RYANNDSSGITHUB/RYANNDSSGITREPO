@@ -1,7 +1,5 @@
 package com.dss.review.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,12 +24,4 @@ public class Review {
     @ManyToOne
     @JoinColumn(name="movie_id", referencedColumnName="id")
     private Movie movie;
-
-    public Review(String id, String message, LocalDate postedDt, String rating, Movie movie){
-        this.id = id;
-        this.message = message;
-        this.postedDt = postedDt;
-        this.rating = rating;
-        this.movie = movie;
-    }
 }

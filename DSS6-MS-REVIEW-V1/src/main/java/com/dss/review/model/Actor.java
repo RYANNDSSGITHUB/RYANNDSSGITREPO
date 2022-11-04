@@ -25,14 +25,4 @@ public class Actor {
     @JsonIgnore
     @ManyToMany(mappedBy = "actorList")
     private Set<Movie> movieList;
-
-    public Actor(String id, String firstName, String lastName, String gender,
-                 String age, Set<Movie> movieList){
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.age = age;
-        this.movieList = movieList;
-    }
 }

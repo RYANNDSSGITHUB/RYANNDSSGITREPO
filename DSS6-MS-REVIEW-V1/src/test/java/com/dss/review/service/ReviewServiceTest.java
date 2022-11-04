@@ -1,8 +1,10 @@
 package com.dss.review.service;
 
 
+import com.dss.review.exception.MovieNotFoundException;
 import com.dss.review.model.Movie;
 import com.dss.review.model.Review;
+import com.dss.review.model.ReviewDto;
 import com.dss.review.proxy.MovieProxy;
 import com.dss.review.repository.MovieDao;
 import com.dss.review.repository.ReviewDao;
@@ -24,22 +26,56 @@ public class ReviewServiceTest {
 
     @Autowired private ReviewService reviewService;
 
-    Movie movie = new Movie("4028c4ec84419c76018441a921e80001", null, null, null,
-            null, null, null);
-
-    Review review = new Review("4028c4ec8441a70b018441ad5ced0000", null, null, null, null);
-
     @Test
-    void saveReviewSuccessful() {
+    public void Saving_review_with_valid_request_and_valid_movie_is_valid(){
+        Movie movie = new Movie();
+        movie.setId("4028c4ec84419c76018441a921e80001");
+
+        ReviewDto reviewDto = new ReviewDto();
+        reviewDto.setMovie(movie);
+
         Mockito.when(movieDao.findById(movie.getId())).thenReturn(Optional.of(new Movie()));
-        Assertions.assertTrue(reviewService.save(review));
+        Assertions.assertTrue(reviewService.save(reviewDto));
+
+        Mockito.when(reviewService.findByMovieId(null)).thenReturn(new Review());
+        Assertions.assertFalse(reviewService.save(null));
     }
 
     @Test
-    public void findReviewByMovieNotNull(){
-        Mockito.when(movieDao.findById(movie.getId())).thenReturn(Optional.of(new Movie()));
-        Mockito.when(reviewDao.findByMovieId(movie.getId())).thenReturn(Optional.of(review));
-        Assertions.assertNotNull(reviewDao.findByMovieId(movie.getId()));
+    void Saving_review_with_empty_request_is_invalid() {
+        ReviewDto reviewDto = null;
+        Assertions.assertFalse(reviewService.save(reviewDto));
+    }
+
+    @Test
+    void Saving_review_with_valid_request_and_empty_movie_is_invalid() {
+        ReviewDto reviewDto = new ReviewDto();
+        reviewDto.setMovie(null);
+        Assertions.assertFalse(reviewService.save(reviewDto));
+    }
+
+    @Test
+    public void Finding_review_with_valid_movie_is_valid(){
+        Movie movie = new Movie();
+        movie.setId("4028c4ec84419c76018441a921e80001");
+
+        ReviewDto reviewDto = new ReviewDto();
+        reviewDto.setMovie(movie);
+
+        String expectedMessage = "Movie ID does not exist";
+        Exception exception = Assertions.assertThrows(MovieNotFoundException.class, () -> {
+            Mockito.when(reviewService.findByMovieId(reviewDto.getMovie().getId())).thenReturn(new Review());
+        });
+        Assertions.assertTrue(exception.getMessage().contains(expectedMessage));
+    }
+
+    @Test
+    public void Finding_review_with_invalid_movie_is_invalid(){
+        String expectedMessage = "Movie ID does not exist";
+        Exception exception = Assertions.assertThrows(MovieNotFoundException.class, () -> {
+            Mockito.when(reviewService.findByMovieId(null)).thenReturn(new Review());
+        });
+        Assertions.assertTrue(exception.getMessage().contains(expectedMessage));
     }
 
 }

@@ -1,16 +1,16 @@
 package com.dss.actor.service;
 
+import com.dss.actor.exception.AbstractRuntimeException;
 import com.dss.actor.exception.ActorNotFoundException;
+import com.dss.actor.exception.LinkedEntityException;
+import com.dss.actor.exception.MovieNotFoundException;
 import com.dss.actor.model.Actor;
 import com.dss.actor.model.Movie;
 import com.dss.actor.proxy.MovieProxy;
 import com.dss.actor.repository.ActorDao;
-import com.dss.movie.exception.AbstractRuntimeException;
-import com.dss.movie.exception.MovieNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,6 +32,8 @@ public class ActorServiceImpl implements ActorService {
                     throw new MovieNotFoundException("Movie ID does not exist");
                 }
             }
+        } else {
+            throw new MovieNotFoundException("Movie list cannot be null");
         }
     }
 
@@ -82,10 +84,14 @@ public class ActorServiceImpl implements ActorService {
     @Override
     public boolean deleteById(String id) {
         Boolean isSuccess = true;
-        try {
-            actorDao.deleteById(id);
-        } catch (Exception e){
-            isSuccess = false;
+
+        Optional<Actor> actor = actorDao.findById(id);
+        if(actor.isPresent()){
+            if(!(actor.get().getMovieList()!=null && actor.get().getMovieList().size()>0)){
+                actorDao.deleteById(id);
+            } else {
+                throw new LinkedEntityException("Cannot delete actor linked to movie");
+            }
         }
         return isSuccess;
     }

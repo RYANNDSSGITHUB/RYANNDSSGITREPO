@@ -1,4 +1,4 @@
-package com.dss.movie.model;
+package com.dss.review.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -22,7 +22,8 @@ public class Movie {
     private String yearReleased;
     private String imageDirectory;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "movie")
     List<Review> reviewList;
 
     @ManyToMany

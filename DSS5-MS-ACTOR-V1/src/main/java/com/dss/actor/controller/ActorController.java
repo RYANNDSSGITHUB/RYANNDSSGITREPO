@@ -1,8 +1,8 @@
 package com.dss.actor.controller;
 
+import com.dss.actor.exception.AbstractRuntimeException;
 import com.dss.actor.model.Actor;
 import com.dss.actor.service.ActorService;
-import com.dss.movie.exception.AbstractRuntimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

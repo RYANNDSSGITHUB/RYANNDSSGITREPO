@@ -1,6 +1,6 @@
-package com.dss.review.repository;
+package com.dss.repository;
 
-import com.dss.review.model.Review;
+import com.dss.model.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

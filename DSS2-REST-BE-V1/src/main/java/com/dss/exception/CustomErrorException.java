@@ -1,12 +1,12 @@
 package com.dss.exception;
 
-public class AbstractException extends Exception {
+public class CustomErrorException extends Exception {
 
-    public AbstractException() {
+    public CustomErrorException() {
 
     }
 
-    public AbstractException(String message) {
+    public CustomErrorException(String message) {
         super(message);
     }
 }

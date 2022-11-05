@@ -1,9 +1,9 @@
-package com.dss.movie.controller;
+package com.dss.controller;
 
-import com.dss.movie.exception.AbstractRuntimeException;
-import com.dss.movie.model.Movie;
-import com.dss.movie.model.MovieRequestModel;
-import com.dss.movie.service.MovieService;
+import com.dss.exception.CustomErrorException;
+import com.dss.model.Movie;
+import com.dss.model.MovieDto;
+import com.dss.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,25 +21,27 @@ public class MovieController {
     }
 
     @GetMapping("/movie/{id}")
-    public Movie findById(@PathVariable(name="id") String id){
+    public Movie findById(@PathVariable(name="id") String id)
+            throws CustomErrorException {
         return movieService.findById(id);
     }
 
     @PostMapping("/movie")
-    public String add(@RequestBody Movie model){
+    public String add(@RequestBody Movie model)
+            throws CustomErrorException {
         return movieService.save(model);
     }
 
     @PutMapping("/movie/{id}")
     public boolean update(@PathVariable(name="id") String id,
-                          @RequestBody MovieRequestModel model)
-            throws AbstractRuntimeException {
+                          @RequestBody MovieDto model)
+            throws CustomErrorException {
         return movieService.update(id, model);
     }
 
     @DeleteMapping("/movie/{id}")
     public boolean deleteById(@PathVariable(name="id") String id)
-            throws AbstractRuntimeException {
+            throws CustomErrorException {
         return movieService.deleteById(id);
     }
 }

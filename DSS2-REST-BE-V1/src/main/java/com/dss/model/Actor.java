@@ -1,4 +1,4 @@
-package com.dss.movie.model;
+package com.dss.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,5 +27,5 @@ public class Actor {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "actorList")
-    private List<Movie> moviesList;
+    private List<Movie> movieList;
 }

@@ -1,4 +1,4 @@
-package com.dss.login.model;
+package com.dss.model;
 
 import lombok.Getter;
 import lombok.Setter;

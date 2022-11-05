@@ -1,13 +1,14 @@
-package com.dss.movie.model;
+package com.dss.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@NoArgsConstructor
 @Entity(name="REVIEW")
 @Getter
 @Setter
@@ -20,8 +21,7 @@ public class Review {
     private LocalDate postedDt;
     private String rating;
 
-    @JsonIgnore
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="movie_id", referencedColumnName="id")
     private Movie movie;
 }

@@ -1,9 +1,10 @@
-package com.dss.review.service;
+package com.dss.service;
 
-import com.dss.review.model.Review;
-import com.dss.review.model.ReviewDto;
+import com.dss.exception.CustomErrorException;
+import com.dss.model.Review;
+import com.dss.model.ReviewDto;
 
 public interface ReviewService {
-    public Review findByMovieId(String id);
-    public boolean save(ReviewDto reviewDto);
+    public Review findByMovieId(String id) throws CustomErrorException;
+    public boolean save(ReviewDto reviewDto) throws CustomErrorException;
 }

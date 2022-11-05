@@ -1,14 +1,11 @@
-package com.dss.login.service;
+package com.dss.service;
 
-import com.dss.login.exception.AbstractException;
-import com.dss.login.exception.InvalidFormatException;
-import com.dss.login.exception.LoginException;
-import com.dss.login.exception.RequiredFieldException;
-import com.dss.login.model.Usr;
-import com.dss.login.model.UsrAuth;
-import com.dss.login.repository.AuthDao;
-import com.dss.login.util.PasswordEncoder;
-import com.dss.login.util.StringValidator;
+import com.dss.exception.CustomErrorException;
+import com.dss.model.Usr;
+import com.dss.model.UsrAuth;
+import com.dss.repository.AuthDao;
+import com.dss.util.PasswordEncoder;
+import com.dss.util.StringValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +18,7 @@ public class AuthServiceImpl implements AuthService {
     @Autowired AuthDao authDao;
 
     @Override
-    public boolean login(UsrAuth usrAuth) throws AbstractException {
+    public boolean login(UsrAuth usrAuth) throws CustomErrorException {
         validateRequiredField(new Usr(usrAuth.getEmail(), usrAuth.getPassword()));
 
         int count = authDao.countByEmailAndPassword(usrAuth.getEmail(),
@@ -34,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean register(Usr usr) throws AbstractException {
+    public boolean register(Usr usr) throws CustomErrorException {
         List<String> errorList = new ArrayList<String>();
         validateExistingRecord(usr);
         validateRequiredField(usr);
@@ -44,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
         return authDao.save(usr).getId()!=null;
     }
 
-    private void validateRequiredField(Usr usr) throws RequiredFieldException {
+    private void validateRequiredField(Usr usr) throws CustomErrorException {
         List<String> errorList = new ArrayList<String>();
         if(usr.getAlias()==null) {
             errorList.add("Alias is a required field");
@@ -60,11 +57,11 @@ public class AuthServiceImpl implements AuthService {
         }
 
         if(errorList.size() > 0){
-            throw new RequiredFieldException(errorList.toString());
+            throw new CustomErrorException(errorList.toString());
         }
     }
 
-    private void validateValidFormat(Usr usr) throws InvalidFormatException {
+    private void validateValidFormat(Usr usr) throws CustomErrorException {
         List<String> errorList = new ArrayList<String>();
         if(!StringValidator.isAlphabetic(usr.getAlias())) {
             errorList.add("Alias must be alphabetic characters only");
@@ -78,11 +75,11 @@ public class AuthServiceImpl implements AuthService {
         }
 
         if(errorList.size() > 0){
-            throw new InvalidFormatException(errorList.toString());
+            throw new CustomErrorException(errorList.toString());
         }
     }
 
-    private void validateExistingRecord(Usr usr) throws LoginException {
+    private void validateExistingRecord(Usr usr) throws CustomErrorException {
         List<String> errorList = new ArrayList<String>();
         if(usr.getEmail()!=null && countByEmail(usr.getEmail()) > 0){
             errorList.add("Email already exists");
@@ -92,7 +89,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         if(errorList.size() > 0){
-            throw new LoginException(errorList.toString());
+            throw new CustomErrorException(errorList.toString());
         }
     }
 

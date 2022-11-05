@@ -1,8 +1,8 @@
-package com.dss.actor.controller;
+package com.dss.controller;
 
-import com.dss.actor.exception.AbstractRuntimeException;
-import com.dss.actor.model.Actor;
-import com.dss.actor.service.ActorService;
+import com.dss.exception.CustomErrorException;
+import com.dss.model.Actor;
+import com.dss.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +33,13 @@ public class ActorController {
     @PutMapping("/actor/{id}")
     public boolean update(@PathVariable(name="id") String id,
                          @RequestBody Actor model)
-            throws AbstractRuntimeException{
+            throws CustomErrorException {
         return actorService.update(id, model);
     }
 
     @DeleteMapping("/actor/{id}")
     public boolean deleteById(@PathVariable(name="id") String id)
-            throws AbstractRuntimeException {
+            throws CustomErrorException {
         return actorService.deleteById(id);
     }
 }

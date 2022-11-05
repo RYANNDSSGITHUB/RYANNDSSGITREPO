@@ -1,6 +1,6 @@
-package com.dss.movie.repository;
+package com.dss.repository;
 
-import com.dss.movie.model.Movie;
+import com.dss.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MovieDao extends JpaRepository<Movie,String> {

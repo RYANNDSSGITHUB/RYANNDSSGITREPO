@@ -1,6 +1,6 @@
-package com.dss.login.repository;
+package com.dss.repository;
 
-import com.dss.login.model.Usr;
+import com.dss.model.Usr;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AuthDao extends JpaRepository<Usr, String> {

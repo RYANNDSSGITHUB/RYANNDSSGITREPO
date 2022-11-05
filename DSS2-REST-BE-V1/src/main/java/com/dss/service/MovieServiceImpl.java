@@ -1,42 +1,41 @@
-package com.dss.movie.service;
+package com.dss.service;
 
-import com.dss.movie.exception.AbstractRuntimeException;
-import com.dss.movie.exception.ActorNotFoundException;
-import com.dss.movie.exception.InvalidMovieException;
-import com.dss.movie.exception.MovieNotFoundException;
-import com.dss.movie.model.Actor;
-import com.dss.movie.model.Movie;
-import com.dss.movie.model.MovieRequestModel;
-import com.dss.movie.proxy.ActorProxy;
-import com.dss.movie.repository.MovieDao;
+import com.dss.exception.CustomErrorException;
+import com.dss.model.Actor;
+import com.dss.model.Movie;
+import com.dss.model.MovieDto;
+import com.dss.repository.ActorDao;
+import com.dss.repository.MovieDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class MovieServiceImpl implements MovieService {
 
     @Autowired MovieDao movieDao;
-    @Autowired ActorProxy actorProxy;
+    @Autowired ActorDao actorDao;
 
-    private void validateActorList(Movie movie) throws AbstractRuntimeException  {
+    private void validateActorList(Movie movie) throws CustomErrorException  {
         if(movie.getActorList().size() > 0){
-            Map<String, Actor> actorMap = actorProxy.findAll().stream()
+            Map<String, Actor> actorMap = actorDao.findAll().stream()
                     .collect(Collectors.toMap(Actor::getId, actor -> actor));
 
             for(Actor actor: movie.getActorList()){
                 if(actorMap.put(actor.getId(), actor) == null){
-                    throw new ActorNotFoundException("Actor ID does not exist");
+                    throw new CustomErrorException("Actor ID does not exist");
                 }
             }
         }
     }
 
     @Override
-    public Movie findById(String id) {
+    public Movie findById(String id) throws CustomErrorException {
         Optional<Movie> movie = movieDao.findById(id);
         if(movie.isPresent()){
             return movie.get();
@@ -50,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public String save(Movie movie) {
+    public String save(Movie movie) throws CustomErrorException {
         if(movie.getActorList() != null){
             validateActorList(movie);
         }
@@ -58,7 +57,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public boolean update(String id, MovieRequestModel newModel) {
+    public boolean update(String id, MovieDto newModel) throws CustomErrorException {
         Boolean isSuccess = true;
 
         Optional<Movie> temp = movieDao.findById(id);
@@ -69,13 +68,13 @@ public class MovieServiceImpl implements MovieService {
             movieDao.save(oldModel);
         } else {
             isSuccess = false;
-            throw new MovieNotFoundException("Movie ID does not exist");
+            throw new CustomErrorException("Movie ID does not exist");
         }
         return isSuccess;
     }
 
     @Override
-    public boolean deleteById(String id) {
+    public boolean deleteById(String id) throws CustomErrorException {
         Boolean isSuccess = true;
 
         Optional<Movie> movie = movieDao.findById(id);
@@ -85,11 +84,11 @@ public class MovieServiceImpl implements MovieService {
             if(dateNow - datePast > 1){
                 movieDao.deleteById(id);
             } else {
-                throw new InvalidMovieException("Unable to delete movie released < 1 year");
+                throw new CustomErrorException("Unable to delete movie released < 1 year");
             }
         } else {
             isSuccess = false;
-            throw new MovieNotFoundException("Movie ID does not exist");
+            throw new CustomErrorException("Movie ID does not exist");
         }
         return isSuccess;
     }

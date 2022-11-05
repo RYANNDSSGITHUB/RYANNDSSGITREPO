@@ -1,4 +1,4 @@
-package com.dss.login.util;
+package com.dss.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

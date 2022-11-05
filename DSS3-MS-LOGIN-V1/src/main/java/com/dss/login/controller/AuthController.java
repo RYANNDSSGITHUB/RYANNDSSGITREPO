@@ -5,6 +5,7 @@ import com.dss.login.model.Usr;
 import com.dss.login.model.UsrAuth;
 import com.dss.login.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,12 @@ import java.util.List;
 public class AuthController {
 
     @Autowired AuthService authService;
+    @Autowired Environment environment;
+
+    @GetMapping("/instance")
+    public String getInstancePort(){
+        return environment.getProperty("local.server.port");
+    }
 
     @PostMapping("/usr/login")
     public boolean login(@RequestBody UsrAuth model) throws AbstractException {
@@ -29,5 +36,4 @@ public class AuthController {
     public List<Usr> findAllUsers() {
         return authService.findAll();
     }
-
 }

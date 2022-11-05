@@ -1,15 +1,15 @@
-package dss.CLIENTAPP.service;
+package com.dss.service;
 
-import dss.CLIENTAPP.proxy.FeignProxy;
+import com.dss.proxy.AuthProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService {
 
-    @Autowired FeignProxy feignProxy;
+    @Autowired AuthProxy authProxy;
 
     public String getServiceInstance() {
-        return feignProxy.getServiceInstance();
+        return authProxy.getServiceInstance();
     }
 }

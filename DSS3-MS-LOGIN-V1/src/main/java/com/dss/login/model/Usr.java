@@ -20,5 +20,11 @@ public class Usr {
     private String contactNo;
     private String email;
     private String password;
-    private int hasLogin;
+
+    public Usr(String email, String password) {
+        this.alias = "";
+        this.contactNo = "";
+        this.email = email;
+        this.password = password;
+    }
 }

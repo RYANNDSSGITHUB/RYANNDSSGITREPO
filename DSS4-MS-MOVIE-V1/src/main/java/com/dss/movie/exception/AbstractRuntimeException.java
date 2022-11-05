@@ -1,7 +1,7 @@
 package com.dss.movie.exception;
 
 public abstract class AbstractRuntimeException extends RuntimeException {
-    
+
     public AbstractRuntimeException() {
 
     }

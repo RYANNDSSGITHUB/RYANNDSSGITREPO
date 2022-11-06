@@ -106,7 +106,7 @@
 				</executions>
 				<configuration>
 					<excludes>
-						<exclude>com/dss/review/model/*</exclude>
+						<exclude>com/dss/movie/model/*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>

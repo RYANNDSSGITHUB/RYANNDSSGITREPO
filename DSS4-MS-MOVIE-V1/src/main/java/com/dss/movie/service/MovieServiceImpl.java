@@ -23,7 +23,7 @@ public class MovieServiceImpl implements MovieService {
     @Autowired ActorProxy actorProxy;
 
     private void validateActorList(Movie movie) throws AbstractRuntimeException  {
-        if(movie.getActorList().size() > 0){
+        if(!movie.getActorList().isEmpty()){
             Map<String, Actor> actorMap = actorProxy.findAll().stream()
                     .collect(Collectors.toMap(Actor::getId, actor -> actor));
 
@@ -64,11 +64,12 @@ public class MovieServiceImpl implements MovieService {
         Optional<Movie> temp = movieDao.findById(id);
         if(temp.isPresent()){
             Movie oldModel = temp.get();
-            oldModel.setProductionCost(newModel.getProductionCost()!=null ? newModel.getProductionCost() : oldModel.getProductionCost());
-            oldModel.setImageDirectory(newModel.getImageDirectory()!=null ? newModel.getImageDirectory() : oldModel.getImageDirectory());
-            movieDao.save(oldModel);
+            if(newModel!=null){
+                oldModel.setProductionCost(newModel.getProductionCost()!=null ? newModel.getProductionCost() : oldModel.getProductionCost());
+                oldModel.setImageDirectory(newModel.getImageDirectory()!=null ? newModel.getImageDirectory() : oldModel.getImageDirectory());
+            }
+           movieDao.save(oldModel);
         } else {
-            isSuccess = false;
             throw new MovieNotFoundException("Movie ID does not exist");
         }
         return isSuccess;
@@ -88,7 +89,6 @@ public class MovieServiceImpl implements MovieService {
                 throw new InvalidMovieException("Unable to delete movie released < 1 year");
             }
         } else {
-            isSuccess = false;
             throw new MovieNotFoundException("Movie ID does not exist");
         }
         return isSuccess;

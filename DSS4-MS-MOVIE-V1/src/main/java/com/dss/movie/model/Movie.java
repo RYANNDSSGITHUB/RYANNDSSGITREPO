@@ -1,7 +1,7 @@
 package com.dss.movie.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+@NoArgsConstructor
 @Entity(name="MOVIE")
 @Getter
 @Setter

@@ -1,4 +1,4 @@
-package com.dss;
+package com.dss.login;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

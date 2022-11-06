@@ -1,6 +1,5 @@
 package com.dss.login.util;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class StringValidator {
@@ -20,7 +19,7 @@ public class StringValidator {
     }
 
     public static String isValidPassword(String characters) {
-        Boolean isValid = true;
+        boolean isValid = true;
         StringBuilder sb = new StringBuilder("Password must have at least ");
         if(characters != null) {
             if(!Pattern.matches("(.*[A-Z].*)", characters)){
@@ -35,7 +34,7 @@ public class StringValidator {
                 sb.append("a digit, ");
                 isValid = false;
             }
-            if(!Pattern.matches("(.*[!@#$%^&*])", characters)){
+            if(!Pattern.matches("(.*[!@#$%^&*].*)", characters)){
                 sb.append("a special character among !@#$%^&*");
                 isValid = false;
             }

@@ -22,20 +22,19 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean login(UsrAuth usrAuth) throws AbstractException {
-        validateRequiredField(new Usr(usrAuth.getEmail(), usrAuth.getPassword()));
-
+        if(usrAuth!=null){
+            validateRequiredField(new Usr(usrAuth.getEmail(), usrAuth.getPassword()));
+        } else {
+            throw new InvalidFormatException("Credentials cannot be null!");
+        }
         int count = authDao.countByEmailAndPassword(usrAuth.getEmail(),
                 PasswordEncoder.getEncodedPassword(usrAuth.getPassword()));
 
-        if(count > 0){
-            return true;
-        }
-        return false;
+        return count > 0;
     }
 
     @Override
     public boolean register(Usr usr) throws AbstractException {
-        List<String> errorList = new ArrayList<String>();
         validateExistingRecord(usr);
         validateRequiredField(usr);
         validateValidFormat(usr);
@@ -45,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private void validateRequiredField(Usr usr) throws RequiredFieldException {
-        List<String> errorList = new ArrayList<String>();
+        List<String> errorList = new ArrayList<>();
         if(usr.getAlias()==null) {
             errorList.add("Alias is a required field");
         }
@@ -59,13 +58,13 @@ public class AuthServiceImpl implements AuthService {
             errorList.add("Password is a required field");
         }
 
-        if(errorList.size() > 0){
+        if(!errorList.isEmpty()){
             throw new RequiredFieldException(errorList.toString());
         }
     }
 
     private void validateValidFormat(Usr usr) throws InvalidFormatException {
-        List<String> errorList = new ArrayList<String>();
+        List<String> errorList = new ArrayList<>();
         if(!StringValidator.isAlphabetic(usr.getAlias())) {
             errorList.add("Alias must be alphabetic characters only");
         }
@@ -77,13 +76,13 @@ public class AuthServiceImpl implements AuthService {
             errorList.add(passwordErr);
         }
 
-        if(errorList.size() > 0){
+        if(!errorList.isEmpty()){
             throw new InvalidFormatException(errorList.toString());
         }
     }
 
     private void validateExistingRecord(Usr usr) throws LoginException {
-        List<String> errorList = new ArrayList<String>();
+        List<String> errorList = new ArrayList<>();
         if(usr.getEmail()!=null && countByEmail(usr.getEmail()) > 0){
             errorList.add("Email already exists");
         }
@@ -91,14 +90,9 @@ public class AuthServiceImpl implements AuthService {
             errorList.add("Contact number already exists");
         }
 
-        if(errorList.size() > 0){
+        if(!errorList.isEmpty()){
             throw new LoginException(errorList.toString());
         }
-    }
-
-    @Override
-    public List<Usr> findAll() {
-        return authDao.findAll();
     }
 
     @Override

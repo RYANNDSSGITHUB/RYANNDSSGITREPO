@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/dss/auth/")
 public class AuthController {
@@ -30,10 +28,5 @@ public class AuthController {
     @PostMapping("/usr/register")
     public boolean register(@RequestBody Usr user) throws AbstractException {
         return authService.register(user);
-    }
-
-    @GetMapping("/usr")
-    public List<Usr> findAllUsers() {
-        return authService.findAll();
     }
 }

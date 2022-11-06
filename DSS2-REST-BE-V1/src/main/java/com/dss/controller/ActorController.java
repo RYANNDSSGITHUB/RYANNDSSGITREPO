@@ -22,11 +22,11 @@ public class ActorController {
 
     @GetMapping("/actor/{id}")
     public Actor findById(@PathVariable(name="id") String id){
-        return actorService.findById(id);
+        return actorService.findById(id).get();
     }
 
     @PostMapping("/actor")
-    public String add(@RequestBody Actor model){
+    public Actor add(@RequestBody Actor model){
         return actorService.save(model);
     }
 
@@ -38,8 +38,7 @@ public class ActorController {
     }
 
     @DeleteMapping("/actor/{id}")
-    public boolean deleteById(@PathVariable(name="id") String id)
-            throws CustomErrorException {
-        return actorService.deleteById(id);
+    public void deleteById(@PathVariable(name="id") String id) {
+        actorService.deleteById(id);
     }
 }

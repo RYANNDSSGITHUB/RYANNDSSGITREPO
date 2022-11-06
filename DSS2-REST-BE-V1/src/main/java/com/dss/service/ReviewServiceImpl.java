@@ -12,48 +12,26 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ReviewServiceImpl implements ReviewService {
+public class ReviewServiceImpl extends BaseServiceImpl<Review> implements ReviewService {
 
     @Autowired ReviewDao reviewDao;
     @Autowired MovieDao movieDao;
 
-    private void validateMovie(Movie movie) throws CustomErrorException {
-        if(movie.getId()!=null){
-            Optional<Movie> temp = movieDao.findById(movie.getId());
-            if(!temp.isPresent()){
-                throw new CustomErrorException("Movie ID does not exist");
+    private void validateMovie(Movie movie) {
+        try {
+            if(movie.getId()!=null){
+                Optional<Movie> temp = movieDao.findById(movie.getId());
+                if(!temp.isPresent()){
+                    throw new CustomErrorException("Movie ID does not exist");
+                }
             }
+        } catch(CustomErrorException e){
+            e.printStackTrace();
         }
-    }
-
-    private Review transformModel(ReviewDto reviewDto) {
-        Review review = new Review();
-        review.setMessage(reviewDto.getMessage());
-        review.setPostedDt(reviewDto.getPostedDt());
-        review.setRating(reviewDto.getRating());
-        review.setMovie(reviewDto.getMovie());
-        return review;
     }
 
     @Override
     public Review findByMovieId(String id) throws CustomErrorException {
-        Optional<Review> review = reviewDao.findByMovieId(id);
-        if(review.isPresent()){
-            return review.get();
-        } else {
-            throw new CustomErrorException("Movie ID does not exist");
-        }
+        return reviewDao.findByMovieId(id).get();
     }
-
-    @Override
-    public boolean save(ReviewDto reviewDto) throws CustomErrorException {
-        if(reviewDto!=null && reviewDto.getMovie() != null){
-            validateMovie(reviewDto.getMovie());
-            reviewDao.save(transformModel(reviewDto));
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

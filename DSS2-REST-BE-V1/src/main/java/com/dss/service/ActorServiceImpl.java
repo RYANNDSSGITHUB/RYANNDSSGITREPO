@@ -8,13 +8,12 @@ import com.dss.repository.MovieDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ActorServiceImpl implements ActorService {
+public class ActorServiceImpl extends BaseServiceImpl<Actor> implements ActorService {
 
     @Autowired ActorDao actorDao;
     @Autowired MovieDao movieDao;
@@ -32,26 +31,6 @@ public class ActorServiceImpl implements ActorService {
         } else {
             throw new CustomErrorException("Movie list cannot be null");
         }
-    }
-
-    @Override
-    public Actor findById(String id) {
-        Optional<Actor> actor = actorDao.findById(id);
-        if(actor.isPresent()){
-            return actor.get();
-        }
-        return null;
-    }
-
-    @Override
-    public List<Actor> findAll() {
-        return actorDao.findAll();
-    }
-
-    @Override
-    public String save(Actor actor) {
-        actor = actorDao.save(actor);
-        return actor.getId();
     }
 
     @Override
@@ -74,21 +53,6 @@ public class ActorServiceImpl implements ActorService {
         } else {
             isSuccess = false;
             throw new CustomErrorException("Actor ID does not exist");
-        }
-        return isSuccess;
-    }
-
-    @Override
-    public boolean deleteById(String id) throws CustomErrorException {
-        Boolean isSuccess = true;
-
-        Optional<Actor> actor = actorDao.findById(id);
-        if(actor.isPresent()){
-            if(!(actor.get().getMovieList()!=null && actor.get().getMovieList().size()>0)){
-                actorDao.deleteById(id);
-            } else {
-                throw new CustomErrorException("Cannot delete actor linked to movie");
-            }
         }
         return isSuccess;
     }

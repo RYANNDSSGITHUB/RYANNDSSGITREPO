@@ -11,11 +11,8 @@ import java.util.Set;
 @Entity(name="MOVIE")
 @Getter
 @Setter
-public class Movie {
+public class Movie extends AbstractBaseModel{
 
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
     private String description;
     private String productionCost;
     private String yearReleased;

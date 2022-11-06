@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl extends BaseServiceImpl<Usr> implements AuthService {
 
     @Autowired AuthDao authDao;
 
@@ -91,11 +91,6 @@ public class AuthServiceImpl implements AuthService {
         if(errorList.size() > 0){
             throw new CustomErrorException(errorList.toString());
         }
-    }
-
-    @Override
-    public List<Usr> findAll() {
-        return authDao.findAll();
     }
 
     @Override

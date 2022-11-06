@@ -15,11 +15,8 @@ import java.util.List;
 @Entity(name="ACTOR")
 @Getter
 @Setter
-public class Actor {
+public class Actor extends AbstractBaseModel {
 
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
     private String firstName;
     private String lastName;
     private String gender;

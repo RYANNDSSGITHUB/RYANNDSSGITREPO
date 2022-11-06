@@ -6,10 +6,6 @@ import com.dss.model.MovieDto;
 
 import java.util.List;
 
-public interface MovieService {
-    public Movie findById(String id) throws CustomErrorException;
-    public List<Movie> findAll();
-    public String save(Movie actor) throws CustomErrorException;
+public interface MovieService extends BaseService<Movie> {
     public boolean update(String id, MovieDto oldModel) throws CustomErrorException;
-    public boolean deleteById(String id) throws CustomErrorException;
 }

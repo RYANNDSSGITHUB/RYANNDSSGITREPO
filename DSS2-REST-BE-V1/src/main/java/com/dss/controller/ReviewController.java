@@ -2,7 +2,6 @@ package com.dss.controller;
 
 import com.dss.exception.CustomErrorException;
 import com.dss.model.Review;
-import com.dss.model.ReviewDto;
 import com.dss.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +19,7 @@ public class ReviewController {
     }
 
     @PostMapping("/review")
-    public boolean add(@RequestBody ReviewDto model)
-            throws CustomErrorException {
+    public Review add(@RequestBody Review model) {
         return reviewService.save(model);
     }
 }

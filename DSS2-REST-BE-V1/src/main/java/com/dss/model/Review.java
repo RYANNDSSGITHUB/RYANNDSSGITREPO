@@ -12,11 +12,8 @@ import java.time.LocalDate;
 @Entity(name="REVIEW")
 @Getter
 @Setter
-public class Review {
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
+public class Review extends AbstractBaseModel {
+
     private String message;
     private LocalDate postedDt;
     private String rating;

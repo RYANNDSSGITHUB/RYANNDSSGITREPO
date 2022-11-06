@@ -16,12 +16,6 @@ public class AuthController {
 
     @Autowired
     AuthService authService;
-    @Autowired Environment environment;
-
-    @GetMapping("/instance")
-    public String getInstancePort(){
-        return environment.getProperty("local.server.port");
-    }
 
     @PostMapping("/usr/login")
     public boolean login(@RequestBody UsrAuth model) throws CustomErrorException {

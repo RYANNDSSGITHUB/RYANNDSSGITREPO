@@ -21,14 +21,12 @@ public class MovieController {
     }
 
     @GetMapping("/movie/{id}")
-    public Movie findById(@PathVariable(name="id") String id)
-            throws CustomErrorException {
-        return movieService.findById(id);
+    public Movie findById(@PathVariable(name="id") String id) {
+        return movieService.findById(id).get();
     }
 
     @PostMapping("/movie")
-    public String add(@RequestBody Movie model)
-            throws CustomErrorException {
+    public Movie add(@RequestBody Movie model) {
         return movieService.save(model);
     }
 
@@ -40,8 +38,8 @@ public class MovieController {
     }
 
     @DeleteMapping("/movie/{id}")
-    public boolean deleteById(@PathVariable(name="id") String id)
+    public void deleteById(@PathVariable(name="id") String id)
             throws CustomErrorException {
-        return movieService.deleteById(id);
+        movieService.deleteById(id);
     }
 }

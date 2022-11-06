@@ -11,11 +11,8 @@ import javax.persistence.Id;
 @Entity(name="USR")
 @Getter
 @Setter
-public class Usr {
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
+public class Usr extends AbstractBaseModel {
+
     private String alias;
     private String contactNo;
     private String email;

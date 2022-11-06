@@ -1,8 +1,6 @@
 package com.dss.review.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 

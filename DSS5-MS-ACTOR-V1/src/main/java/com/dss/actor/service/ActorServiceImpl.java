@@ -32,8 +32,6 @@ public class ActorServiceImpl implements ActorService {
                     throw new MovieNotFoundException("Movie ID does not exist");
                 }
             }
-        } else {
-            throw new MovieNotFoundException("Movie list cannot be null");
         }
     }
 
@@ -53,8 +51,13 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public String save(Actor actor) {
-        actor = actorDao.save(actor);
-        return actor.getId();
+        if(actor!=null){
+            if(actor.getMovieList()!=null){
+                validateMovieList(actor);
+            }
+            return actorDao.save(actor).getId();
+        }
+        return null;
     }
 
     @Override
@@ -75,7 +78,6 @@ public class ActorServiceImpl implements ActorService {
             }
             actorDao.save(oldModel);
         } else {
-            isSuccess = false;
             throw new ActorNotFoundException("Actor ID does not exist");
         }
         return isSuccess;
@@ -85,12 +87,13 @@ public class ActorServiceImpl implements ActorService {
     public boolean deleteById(String id) {
         Boolean isSuccess = true;
 
-        Optional<Actor> actor = actorDao.findById(id);
-        if(actor.isPresent()){
-            if(!(actor.get().getMovieList()!=null && actor.get().getMovieList().size()>0)){
-                actorDao.deleteById(id);
-            } else {
+        Optional<Actor> temp = actorDao.findById(id);
+        if(temp.isPresent()){
+            Actor actor = temp.get();
+            if(actor.getMovieList()!=null && !actor.getMovieList().isEmpty()){
                 throw new LinkedEntityException("Cannot delete actor linked to movie");
+            } else {
+                actorDao.deleteById(id);
             }
         }
         return isSuccess;

@@ -2,11 +2,11 @@ package com.dss.actor.exception;
 
 public abstract class AbstractRuntimeException extends RuntimeException {
     
-    public AbstractRuntimeException() {
+    protected AbstractRuntimeException() {
 
     }
 
-    public AbstractRuntimeException(String message) {
+    protected AbstractRuntimeException(String message) {
         super(message);
     }
 }

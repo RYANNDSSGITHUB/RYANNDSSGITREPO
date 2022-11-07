@@ -1,0 +1,492 @@
+{
+	"info": {
+		"_postman_id": "265d68f8-dd68-4048-bcff-296982e47104",
+		"name": "DSS-V1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23906752"
+	},
+	"item": [
+		{
+			"name": "GATEWAY",
+			"item": [
+				{
+					"name": "PROXY: Port Instance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8765/dss-login-service/api/dss/register/instance",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"dss-login-service",
+								"api",
+								"dss",
+								"register",
+								"instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PROXY: Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"authuser@gmail.com\",\r\n    \"password\":\"M0nd@y333\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8765/dss-login-service/api/dss/auth/usr/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8765",
+							"path": [
+								"dss-login-service",
+								"api",
+								"dss",
+								"auth",
+								"usr",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MOVIE",
+			"item": [
+				{
+					"name": "View all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9007/api/dss/movie",
+							"host": [
+								"localhost"
+							],
+							"port": "9007",
+							"path": [
+								"api",
+								"dss",
+								"movie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View a movie",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9007/api/dss/movie/4028c4ec843c700b01843c75b33b0004",
+							"host": [
+								"localhost"
+							],
+							"port": "9007",
+							"path": [
+								"api",
+								"dss",
+								"movie",
+								"4028c4ec843c700b01843c75b33b0004"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a movie",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\":\"MOVIE4\",\r\n    \"productionCost\":\"250000\",\r\n    \"yearReleased\":\"1998-12-20\",\r\n    \"imageDirectory\":\"/home/pic.jpg\",\r\n    \"actorList\":[\r\n        {\"id\":\"x\"},\r\n        {\"id\":\"4028c4ec843c283001843c284ccd0000\"}\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9007/api/dss/movie",
+							"host": [
+								"localhost"
+							],
+							"port": "9007",
+							"path": [
+								"api",
+								"dss",
+								"movie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a movie (no actor)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\":\"MOVIE4\",\r\n    \"productionCost\":\"250000\",\r\n    \"yearReleased\":\"1998-12-20\",\r\n    \"imageDirectory\":\"/home/pic.jpg\",\r\n    \"actorList\":[\r\n        {\"id\":\"x\"},\r\n        {\"id\":\"4028c4ec843c283001843c284ccd0000\"}\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9007/api/dss/movie",
+							"host": [
+								"localhost"
+							],
+							"port": "9007",
+							"path": [
+								"api",
+								"dss",
+								"movie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a movie",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9007/api/dss/movie/4028c4ec843c700b01843c75b33b0004",
+							"host": [
+								"localhost"
+							],
+							"port": "9007",
+							"path": [
+								"api",
+								"dss",
+								"movie",
+								"4028c4ec843c700b01843c75b33b0004"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a movie",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\":\"TEST\",\r\n    \"productionCost\":\"1005\",\r\n    \"imageDirectory\":\"/home3/pic.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9007/api/dss/movie/4028c4ec843cb85301843cbde3880003",
+							"host": [
+								"localhost"
+							],
+							"port": "9007",
+							"path": [
+								"api",
+								"dss",
+								"movie",
+								"4028c4ec843cb85301843cbde3880003"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ACTOR",
+			"item": [
+				{
+					"name": "View all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9006/api/dss/actor",
+							"host": [
+								"localhost"
+							],
+							"port": "9006",
+							"path": [
+								"api",
+								"dss",
+								"actor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View an actor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9006/api/dss/actor/4028c4ec843c283001843c284ccd0000",
+							"host": [
+								"localhost"
+							],
+							"port": "9006",
+							"path": [
+								"api",
+								"dss",
+								"actor",
+								"4028c4ec843c283001843c284ccd0000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add an actor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Ryann\",\r\n    \"lastName\":\"Nepomuceno\",\r\n    \"gender\":\"M\",\r\n    \"age\":\"23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9006/api/dss/actor",
+							"host": [
+								"localhost"
+							],
+							"port": "9006",
+							"path": [
+								"api",
+								"dss",
+								"actor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add an actor (no movie)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Ryann\",\r\n    \"lastName\":\"Nepomuceno\",\r\n    \"gender\":\"M\",\r\n    \"age\":\"23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9006/api/dss/actor",
+							"host": [
+								"localhost"
+							],
+							"port": "9006",
+							"path": [
+								"api",
+								"dss",
+								"actor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an actor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9006/api/dss/actor/4028c4ec843d8f2c01843d91e2350000",
+							"host": [
+								"localhost"
+							],
+							"port": "9006",
+							"path": [
+								"api",
+								"dss",
+								"actor",
+								"4028c4ec843d8f2c01843d91e2350000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an actor",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Ryann\",\r\n    \"lastName\":\"Nepomuceno\",\r\n    \"gender\":\"M\",\r\n    \"age\":\"23\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9006/api/dss/actor/4028c4ec843c283001843c284ccd0000",
+							"host": [
+								"localhost"
+							],
+							"port": "9006",
+							"path": [
+								"api",
+								"dss",
+								"actor",
+								"4028c4ec843c283001843c284ccd0000"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "REVIEW",
+			"item": [
+				{
+					"name": "Add a review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:9008/api/dss/review",
+							"host": [
+								"localhost"
+							],
+							"port": "9008",
+							"path": [
+								"api",
+								"dss",
+								"review"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Review by Movie",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9008/api/dss/review/4028c4ec84419c76018441a921e80001",
+							"host": [
+								"localhost"
+							],
+							"port": "9008",
+							"path": [
+								"api",
+								"dss",
+								"review",
+								"4028c4ec84419c76018441a921e80001"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"alias\":\"RJN\",\r\n    \"contactNo\":\"1253\",\r\n    \"email\":\"ryannjeffers2@gmail.com\",\r\n    \"password\":\"10qpalzM#\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9002/api/dss/auth/usr/register",
+							"host": [
+								"localhost"
+							],
+							"port": "9002",
+							"path": [
+								"api",
+								"dss",
+								"auth",
+								"usr",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ryannjeffers2@gmail.com\",\r\n    \"password\":\"10qpalzM#\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9002/api/dss/auth/usr/login",
+							"host": [
+								"localhost"
+							],
+							"port": "9002",
+							"path": [
+								"api",
+								"dss",
+								"auth",
+								"usr",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

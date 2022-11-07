@@ -6,14 +6,14 @@ public class StringValidator {
 
     public static boolean isAlphabetic(String characters){
         if(characters != null) {
-            return Pattern.matches(".*[a-zA-Z].*", characters);
+            return Pattern.matches("[a-zA-Z]*", characters);
         }
         return false;
     }
 
     public static boolean isNumeric(String characters) {
         if (characters != null) {
-            return Pattern.matches(".*[0-9].*", characters);
+            return Pattern.matches("[0-9]*", characters);
         }
         return false;
     }

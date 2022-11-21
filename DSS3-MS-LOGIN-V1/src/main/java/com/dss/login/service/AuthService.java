@@ -1,11 +1,11 @@
 package com.dss.login.service;
 
-import com.dss.login.exception.AbstractException;
-import com.dss.login.model.Usr;
-import com.dss.login.model.UsrAuth;
+import com.dss.login.domain.exception.AbstractException;
+import com.dss.login.domain.model.Usr;
+import com.dss.login.domain.dto.AuthRequest;
 
 public interface AuthService {
-    public boolean login(UsrAuth usrAuth) throws AbstractException;
+    public String login(AuthRequest authRequest) throws AbstractException;
     public boolean register(Usr usr) throws AbstractException;
 
     public int countByEmail(String email);

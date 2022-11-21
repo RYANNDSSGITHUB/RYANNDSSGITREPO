@@ -1,9 +1,9 @@
-package com.dss.login.model;
+package com.dss.login.domain.dto;
 
 import lombok.Data;
 
 @Data
-public class UsrAuth {
+public class AuthRequest {
     private String email;
     private String password;
 }

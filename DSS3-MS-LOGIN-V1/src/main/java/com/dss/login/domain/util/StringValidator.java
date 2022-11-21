@@ -1,4 +1,4 @@
-package com.dss.login.util;
+package com.dss.login.domain.util;
 
 import java.util.regex.Pattern;
 

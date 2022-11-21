@@ -1,10 +1,10 @@
 package com.dss.login.service;
 
-import com.dss.login.exception.AbstractException;
-import com.dss.login.model.Usr;
-import com.dss.login.model.UsrAuth;
+import com.dss.login.domain.exception.AbstractException;
+import com.dss.login.domain.model.Usr;
+import com.dss.login.domain.dto.AuthRequest;
 import com.dss.login.repository.AuthDao;
-import com.dss.login.util.PasswordEncoder;
+import com.dss.login.domain.util.ManualPasswordEncoder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,39 +21,39 @@ class AuthServiceTest {
 
     @Test
     void Login_with_valid_request_and_valid_credentials_is_valid() throws AbstractException {
-        UsrAuth usrAuth = new UsrAuth();
-        usrAuth.setEmail("authuser@gmail.com");
-        usrAuth.setPassword("M0nd@y333");
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setEmail("authuser@gmail.com");
+        authRequest.setPassword("M0nd@y333");
 
-        Usr usr = new Usr(usrAuth.getEmail(), usrAuth.getPassword());
-        String encodedPassword = PasswordEncoder.getEncodedPassword(usrAuth.getPassword());
-        Mockito.when(authDao.countByEmailAndPassword(usrAuth.getEmail(), encodedPassword))
+        Usr usr = new Usr(authRequest.getEmail(), authRequest.getPassword());
+        String encodedPassword = ManualPasswordEncoder.getEncodedPassword(authRequest.getPassword());
+        Mockito.when(authDao.countByEmailAndPassword(authRequest.getEmail(), encodedPassword))
                 .thenReturn(1);
 
-        Assertions.assertTrue(authService.login(usrAuth));
+        Assertions.assertTrue(authService.login(authRequest));
     }
 
     @Test
     void Login_with_valid_request_and_invalid_credentials_is_invalid() throws AbstractException {
-        UsrAuth usrAuth = new UsrAuth();
-        usrAuth.setEmail("nonexistent@gmail.com");
-        usrAuth.setPassword("testpassword");
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setEmail("nonexistent@gmail.com");
+        authRequest.setPassword("testpassword");
 
-        String encodedPassword = PasswordEncoder.getEncodedPassword(usrAuth.getPassword());
-        Mockito.when(authDao.countByEmailAndPassword(usrAuth.getEmail(), encodedPassword))
+        String encodedPassword = ManualPasswordEncoder.getEncodedPassword(authRequest.getPassword());
+        Mockito.when(authDao.countByEmailAndPassword(authRequest.getEmail(), encodedPassword))
                 .thenReturn(0);
 
-        Assertions.assertFalse(authService.login(usrAuth));
+        Assertions.assertFalse(authService.login(authRequest));
     }
 
     @Test
     void Login_with_valid_request_but_empty_credentials_is_invalid() {
-        UsrAuth usrAuth = new UsrAuth();
-        usrAuth.setEmail(null);
-        usrAuth.setPassword(null);
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setEmail(null);
+        authRequest.setPassword(null);
 
         Exception exception = Assertions.assertThrows(AbstractException.class, () -> {
-            authService.login(usrAuth);
+            authService.login(authRequest);
         });
     }
 

@@ -1,9 +1,9 @@
-package com.dss.login.util;
+package com.dss.login.domain.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PasswordEncoder {
+public class MD5Encoder {
 
     public static String getEncodedPassword(String password) {
         MessageDigest messageDigest;

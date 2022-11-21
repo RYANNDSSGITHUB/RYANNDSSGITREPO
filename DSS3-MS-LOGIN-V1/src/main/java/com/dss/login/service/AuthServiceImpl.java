@@ -1,15 +1,19 @@
 package com.dss.login.service;
 
-import com.dss.login.exception.AbstractException;
-import com.dss.login.exception.InvalidFormatException;
-import com.dss.login.exception.LoginException;
-import com.dss.login.exception.RequiredFieldException;
-import com.dss.login.model.Usr;
-import com.dss.login.model.UsrAuth;
+import com.dss.login.domain.constants.RoleEnum;
+import com.dss.login.domain.dto.AuthRequest;
+import com.dss.login.domain.exception.AbstractException;
+import com.dss.login.domain.exception.InvalidFormatException;
+import com.dss.login.domain.exception.LoginException;
+import com.dss.login.domain.exception.RequiredFieldException;
+import com.dss.login.domain.model.Usr;
+import com.dss.login.domain.util.JwtTokenUtil;
+import com.dss.login.domain.util.MD5Encoder;
+import com.dss.login.domain.util.StringValidator;
 import com.dss.login.repository.AuthDao;
-import com.dss.login.util.PasswordEncoder;
-import com.dss.login.util.StringValidator;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,27 +23,33 @@ import java.util.List;
 public class AuthServiceImpl implements AuthService {
 
     @Autowired AuthDao authDao;
+    @Autowired JwtTokenUtil jwtTokenUtil;
+    @Autowired PasswordEncoder passwordEncoder;
 
     @Override
-    public boolean login(UsrAuth usrAuth) throws AbstractException {
-        if(usrAuth!=null){
-            validateRequiredField(new Usr(usrAuth.getEmail(), usrAuth.getPassword()));
+    public String login(AuthRequest authRequest) throws AbstractException {
+        if(authRequest !=null){
+            validateRequiredField(new Usr(authRequest.getEmail(), authRequest.getPassword()));
         } else {
             throw new InvalidFormatException("Credentials cannot be null!");
         }
-        int count = authDao.countByEmailAndPassword(usrAuth.getEmail(),
-                PasswordEncoder.getEncodedPassword(usrAuth.getPassword()));
+        int count = authDao.countByEmailAndPassword(authRequest.getEmail(),
+                MD5Encoder.getEncodedPassword(authRequest.getPassword()));
 
-        return count > 0;
+        if(count > 0){
+            return jwtTokenUtil.generateAccessToken(authRequest.getEmail());
+        }
+        return "";
     }
 
     @Override
     public boolean register(Usr usr) throws AbstractException {
-        validateExistingRecord(usr);
-        validateRequiredField(usr);
-        validateValidFormat(usr);
+//        validateExistingRecord(usr);
+//        validateRequiredField(usr);
+//        validateValidFormat(usr);
 
-        usr.setPassword(PasswordEncoder.getEncodedPassword(usr.getPassword()));
+        usr.setRole(RoleEnum.USER.getIntValue());
+        usr.setPassword(passwordEncoder.encode(usr.getPassword()));
         return authDao.save(usr).getId()!=null;
     }
 
@@ -56,6 +66,9 @@ public class AuthServiceImpl implements AuthService {
         }
         if(usr.getPassword()==null) {
             errorList.add("Password is a required field");
+        }
+        if(usr.getRole()==null){
+            errorList.add("Role is a required field");
         }
 
         if(!errorList.isEmpty()){

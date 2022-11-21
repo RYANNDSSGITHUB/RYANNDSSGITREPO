@@ -1,4 +1,4 @@
-package com.dss.login.model;
+package com.dss.login.domain.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +22,13 @@ public class Usr {
     private String contactNo;
     private String email;
     private String password;
+    private Integer role;
 
     public Usr(String email, String password) {
         this.alias = "";
         this.contactNo = "";
         this.email = email;
         this.password = password;
+        this.role = 0;
     }
 }
